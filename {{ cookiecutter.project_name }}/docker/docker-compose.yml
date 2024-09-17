@@ -1,0 +1,67 @@
+services:
+  src:
+    build:
+      context: ../{{ cookiecutter.__package_name }}
+      args:
+        - CUDA_VERSION=${CUDA_VERSION}
+        - CUDNN_VERSION=${CUDNN_VERSION}
+        - UBUNTU_VERSION=${UBUNTU_VERSION}
+        - CONDA_ENV_NAME=${CONDA_ENV_NAME}
+        - PYTHON_VERSION=${PYTHON_VERSION}
+        - WORKDIR_FOLDER_CONTAINER=${WORKDIR_FOLDER_CONTAINER}
+        {% if cookiecutter.base_framework == "pytorch" %}
+        - PYTORCH_VERSION=${PYTORCH_VERSION}
+        - TORCHAUDIO_VERSION=${TORCHAUDIO_VERSION}
+        - TORCHVISION_VERSION=${TORCHVISION_VERSION}
+        - PYTORCH_CUDA_VERSION=${PYTORCH_CUDA_VERSION}
+        {% endif %}
+        {% if cookiecutter.setup_openmmlab == true %}
+        - MMCV_VERSION=${MMCV_VERSION}
+        - MMENGINE_VERSION=${MMENGINE_VERSION}
+        - MMDETECTION_VERSION=${MMDETECTION_VERSION}
+        - MMDETECTION3D_VERSION=${MMDETECTION3D_VERSION}
+        {% endif %}
+    {% if cookiecutter.setup_ssh == true %}
+    command: /usr/sbin/sshd -D
+    {% endif %}
+    image: ${PACKAGE_NAME}_source
+    container_name: ${PACKAGE_NAME}_source
+    shm_size: 32gb
+    stdin_open: true 
+    tty: true
+    {% if cookiecutter.docker_platform == "windows" %}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    {% elif cookiecutter.docker_platform == "linux" %}
+    runtime: nvidia
+    {% endif %}
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=${NVIDIA_VISIBLE_DEVICES}
+      - CUDA_DEVICE_ORDER=${CUDA_DEVICE_ORDER}
+      {% if cookiecutter.experiment_tracker == "mlflow" %}
+      - MLFLOW_TRACKING_URI=http://mlflow:5000
+      {% endif %}
+    volumes:
+      - ${WORKDIR_FOLDER_HOST}:${WORKDIR_FOLDER_CONTAINER}
+      - ${DATASETS_FOLDER_HOST}:${DATASETS_FOLDER_CONTAINER}
+
+  {% if cookiecutter.experiment_tracker == "mlflow" %}
+  mlflow:
+    build:
+      context: ../mlflow
+      args:
+        - MLFLOW_VERSION=${MLFLOW_VERSION}
+    command: mlflow server --host 0.0.0.0
+    image: ${PACKAGE_NAME}_mlflow
+    container_name: ${PACKAGE_NAME}_mlflow
+    ports:
+      - ${MLFLOW_PORT}:5000
+    volumes:
+      - ../mlflow/mlruns:/mlruns
+      - ../mlflow/mlartifacts:/mlartifacts
+  {% endif %}

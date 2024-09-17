@@ -1,0 +1,36 @@
+{
+    "project_name": "My Project",
+    "__package_name": "{{ cookiecutter.project_name.lower().replace(' ', '_') }}",
+    "base_framework": ["pytorch"],
+    "experiment_tracker": ["none", "mlflow"],
+    "docker_platform": ["windows", "linux"],
+    "datasets_folder": "~/Documents/Datasets",
+    "setup_openmmlab": false,
+    "setup_devtools": false,
+    "setup_ssh": false,
+    "__prompts__": {
+        "project_name": "What is the name of your project?",
+        "base_framework": {
+            "__prompt__": "Which deep learning framework do you want to use?",
+            "pytorch": "PyTorch"
+        },
+        "experiment_tracker": {
+            "__prompt__": "Which experiment tracker do you want to use?",
+            "none": "None",
+            "mlflow": "MLFlow"
+        },
+        "docker_platform": {
+            "__prompt__": "Which Docker platform are you running on?",
+            "windows": "Docker Desktop (Windows)",
+            "linux": "NVIDIA Container Toolkit (Linux)"
+        },
+        "datasets_folder": "What (dataset) folder do you want to mount into the source code container?",
+        "setup_openmmlab": "Do you want to install OpenMMLab packages?",
+        "setup_devtools": "Do you want to install Ruff for formatting/linting?",
+        "setup_ssh": "Do you want to install SSH to connect to the container?"
+    },
+    "_jinja2_env_vars": {
+        "lstrip_blocks": true,
+        "trim_blocks": true
+    }
+}

@@ -1,0 +1,18 @@
+[tool.ruff]
+line-length = 90
+
+[tool.ruff.lint]
+select = [
+    "F", # pyflakes
+    "E", # pycodestyle
+    "I", # isort
+    "B", # flake8-bugbear
+    "EM", # flake8-errmsg
+    "T20", # flake8-print
+    "RET", # flake8-return
+
+]
+ignore = [
+    "B019", # Ignore lru_cache decorator memory leak warning
+    "RET505", # Ignore unnecessary elif after return warning
+]
