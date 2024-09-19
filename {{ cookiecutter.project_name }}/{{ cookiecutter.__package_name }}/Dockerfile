@@ -50,10 +50,10 @@ ARG TORCHAUDIO_VERSION=2.0.0
 ARG TORCHVISION_VERSION=0.15.0
 ARG PYTORCH_CUDA_VERSION=11.8
 RUN conda install --name ${CONDA_ENV_NAME} \
-    pytorch${PYTORCH_VERSION:+==PYTORCH_VERSION} \
-    torchvision${TORCHVISION_VERSION:+==TORCHVISION_VERSION} \
-    torchaudio${TORCHAUDIO_VERSION:+==TORCHAUDIO_VERSION} \
-    pytorch-cuda${PYTORCH_CUDA_VERSION:+=PYTORCH_CUDA_VERSION} --channel pytorch --channel nvidia
+    pytorch${PYTORCH_VERSION:+==${PYTORCH_VERSION}} \
+    torchvision${TORCHVISION_VERSION:+==${TORCHVISION_VERSION}} \
+    torchaudio${TORCHAUDIO_VERSION:+==${TORCHAUDIO_VERSION}} \
+    pytorch-cuda${PYTORCH_CUDA_VERSION:+=${PYTORCH_CUDA_VERSION}} --channel pytorch --channel nvidia
 {% endif %}
 
 {% if cookiecutter.setup_openmmlab == true %}
