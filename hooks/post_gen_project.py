@@ -40,6 +40,11 @@ def remove_pyproject_toml_file() -> None:
     os.remove("./pyproject.toml")
 
 
+def remove_pyrightconfig_json_file() -> None:
+    """Remove pyrightconfig.json file from generated project root"""
+    os.remove("./pyrightconfig.json")
+
+
 def main() -> None:
     """Perform post-generation cleanup based on Cookiecutter template variables"""
     # Fix whitespace for all files that use Jinja2 templates.
@@ -53,10 +58,12 @@ def main() -> None:
     if "{{ cookiecutter.experiment_tracker }}" != "mlflow":
         remove_mlflow_folder()
 
+    print("{{ cookiecutter.setup_devtools }}") 
     # Remove tests folder and devtools configuration file if unused.
-    if "{{ cookiecutter.setup_devtools }}" != "true":
+    if not bool("{{ cookiecutter.setup_devtools }}"):
         remove_tests_folder()
         remove_pyproject_toml_file()
+        remove_pyrightconfig_json_file()
 
 
 if __name__ == "__main__":

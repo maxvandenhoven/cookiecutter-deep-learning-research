@@ -1,0 +1,10 @@
+{
+  "exclude": [
+    "**/.git",
+    "**/.ruff_cache",
+    "**/checkpoints",
+    "**/mlartifacts",
+    "**/mlruns",
+    "**/weights"
+  ]
+}
