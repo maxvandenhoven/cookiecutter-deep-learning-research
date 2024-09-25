@@ -16,7 +16,7 @@
 
 
 **Experiment Tracking Frameworks:**  
-[![MLFlow](https://img.shields.io/static/v1?message=2.0.0&logo=mlflow&color=018EDA&logoColor=white&label=MLFlow&style=flat)](https://www.mlflow.org/)
+[![MLFlow](https://img.shields.io/static/v1?message=2.9.2&logo=mlflow&color=018EDA&logoColor=white&label=MLFlow&style=flat)](https://www.mlflow.org/)
 [![Weights & Biases](https://img.shields.io/static/v1?message=TBD&logo=weightsandbiases&color=FFBE00&logoColor=white&label=Weights%20%26%20Biases&style=flat)](https://wandb.ai/site)
 
 
